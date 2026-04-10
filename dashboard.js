@@ -171,6 +171,14 @@ const Dashboard = {
     const budgetSpent      = catsWithLimits.reduce((s, c) => s + (spentMap[c] || 0), 0);
     const totalLeft        = totalBudgeted - budgetSpent;
 
+    const incomeRow = document.getElementById('summary-income-row');
+    if (income != null) {
+      incomeRow.hidden = false;
+      document.getElementById('summary-income').textContent = `$${income.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    } else {
+      incomeRow.hidden = true;
+    }
+
     document.getElementById('summary-budgeted').textContent = `$${totalBudgeted.toFixed(2)}`;
     document.getElementById('summary-spent').textContent    = `$${budgetSpent.toFixed(2)}`;
 
