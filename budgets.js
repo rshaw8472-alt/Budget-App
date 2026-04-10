@@ -132,6 +132,22 @@ const Budgets = {
     });
     html += '</tr>';
 
+    // ── Actual Savings row (read-only) ──
+    html += '<tr class="tbl-savings-row">';
+    html += '<td class="tbl-sticky tbl-row-label">💵 Actual Savings</td>';
+    periods.forEach(p => {
+      const isCur      = p.key === curKey;
+      const income     = Store.getPeriodIncome(p.key);
+      const totalSpent = cats.reduce((s, c) => s + (spentByPeriod[p.key][c] || 0), 0);
+      const actual     = income != null ? income - totalSpent : null;
+      const over       = actual != null && actual < 0;
+      const cls        = isCur ? ' tbl-current' : '';
+      html += `<td class="tbl-cell tbl-savings-cell tbl-readonly${cls} ${actual != null ? (over ? 'tbl-diff-over' : 'tbl-diff-ok') : ''}" colspan="3" data-key="${p.key}">`;
+      html += actual != null ? `${over ? '-' : '+'}$${Math.abs(actual).toLocaleString('en-US', {maximumFractionDigits: 0})}` : '—';
+      html += '</td>';
+    });
+    html += '</tr>';
+
     // ── Divider ──
     html += '<tr class="tbl-divider-row"><td class="tbl-sticky"></td>';
     periods.forEach(() => html += '<td colspan="3"></td>');
