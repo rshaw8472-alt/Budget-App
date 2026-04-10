@@ -740,23 +740,46 @@ input.invalid { border-color: var(--red); }
 .tbl-row-even { background: var(--surface); }
 .tbl-row-odd  { background: #fafbfc; }
 
+/* Sub-column headers */
+.tbl-span3 { min-width: 180px; border-left: 2px solid var(--border); }
+.tbl-sub-head {
+  padding: 0.25rem 0.5rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-3);
+  text-align: right;
+  background: var(--bg);
+  border-top: 1px solid var(--border);
+  white-space: nowrap;
+}
+.tbl-sub-proj  { border-left: 2px solid var(--border); min-width: 62px; }
+.tbl-sub-actual { min-width: 58px; border-left: 1px solid var(--border); }
+.tbl-sub-diff  { min-width: 58px; border-left: 1px solid var(--border); }
+
 /* Data cells */
 .tbl-cell {
-  padding: 0;
+  padding: 0.45rem 0.5rem;
   text-align: right;
   border-left: 1px solid var(--border);
   cursor: pointer;
-  min-width: 90px;
+  min-width: 62px;
   position: relative;
+  font-size: 0.875rem;
   transition: background 0.1s;
 }
+.tbl-cell-proj { border-left: 2px solid var(--border) !important; }
+.tbl-cell-actual { color: var(--text-2); }
+.tbl-cell-diff { font-weight: 600; }
+.tbl-diff-ok   { color: var(--green); }
+.tbl-diff-over { color: var(--red); }
 
 .tbl-cell:hover { background: #f0f4ff !important; }
 .tbl-cell.editing { background: #eef2ff !important; outline: 2px solid var(--primary); outline-offset: -2px; z-index: 1; }
 
 .cell-display {
   display: block;
-  padding: 0.5rem 0.625rem;
   color: var(--text);
   font-variant-numeric: tabular-nums;
   text-align: right;
@@ -975,6 +998,32 @@ input.invalid { border-color: var(--red); }
 }
 
 .hint { font-size: 0.82rem; color: var(--text-2); }
+
+/* ── Import Data Card ── */
+/* ── Budget table spent sub-label ── */
+.tbl-cell-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.5rem 0.625rem;
+}
+.tbl-cell-inner .cell-display {
+  display: inline;
+  padding: 0;
+}
+.cell-spent {
+  font-size: 0.72rem;
+  color: var(--text-3);
+  font-weight: 400;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.cell-spent-over {
+  color: var(--red);
+  font-weight: 600;
+}
 
 /* ── Import Data Card ── */
 .import-data-card {
