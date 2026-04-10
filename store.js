@@ -50,12 +50,7 @@ const Store = {
   getPeriodBudgets(periodKey) {
     const all = this.getAllPeriodBudgets();
     if (all[periodKey]) return { ...all[periodKey] };
-    // Inherit from the most recent prior period
-    const keys = Object.keys(all)
-      .filter(k => k !== 'default' && k <= periodKey)
-      .sort();
-    if (keys.length > 0) return { ...all[keys[keys.length - 1]] };
-    // Fall back to default
+    // Fall back to default only — no cascading between months
     return all['default'] ? { ...all['default'] } : {};
   },
   setPeriodBudget(periodKey, category, amount) {
