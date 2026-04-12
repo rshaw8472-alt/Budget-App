@@ -343,7 +343,7 @@ body {
 .budget-card-header {
   display: flex;
   justify-content: space-between;
-  align-items: baseline;
+  align-items: center;
   margin-bottom: 0.5rem;
 }
 
@@ -998,6 +998,60 @@ input.invalid { border-color: var(--red); }
 }
 
 .hint { font-size: 0.82rem; color: var(--text-2); }
+
+/* ── Category card expandable transactions ── */
+.budget-card.has-txs .budget-card-header { cursor: pointer; }
+.budget-card.has-txs .budget-card-header:active { background: var(--bg); border-radius: var(--radius-sm); }
+
+.card-chevron {
+  font-size: 1.1rem;
+  color: var(--text-3);
+  margin-left: 0.25rem;
+  transition: transform 0.2s;
+  flex-shrink: 0;
+  line-height: 1;
+}
+.budget-card.card-open .card-chevron { transform: rotate(90deg); }
+
+.card-tx-drawer {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease;
+}
+.budget-card.card-open .card-tx-drawer {
+  max-height: 600px;
+}
+
+.card-tx-list {
+  list-style: none;
+  border-top: 1px solid var(--border);
+  margin-top: 0.5rem;
+  padding-top: 0.25rem;
+}
+.card-tx-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.45rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+}
+.card-tx-item:last-child { border-bottom: none; }
+.card-tx-meta {
+  font-size: 0.825rem;
+  color: var(--text-2);
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.card-tx-amount {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text);
+  flex-shrink: 0;
+}
 
 /* ── Import Data Card ── */
 /* ── Budget table spent sub-label ── */

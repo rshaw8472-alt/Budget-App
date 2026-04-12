@@ -241,20 +241,46 @@ const Dashboard = {
         leftHtml = ` · <span class="${leftClass}">$${Math.abs(left).toFixed(2)} ${leftWord}</span>`;
       }
 
+      const catTxs = txs
+        .filter(tx => tx.category === cat)
+        .sort((a, b) => b.date.localeCompare(a.date));
+
+      const txListHtml = catTxs.length === 0 ? '' : `
+        <ul class="card-tx-list">
+          ${catTxs.map(tx => {
+            const dateStr = new Date(tx.date + 'T00:00:00')
+              .toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+            const note = tx.notes ? escapeHtml(tx.notes) : '';
+            return `<li class="card-tx-item">
+              <span class="card-tx-meta">${dateStr}${note ? ' · ' + note : ''}</span>
+              <span class="card-tx-amount">$${tx.amount.toFixed(2)}</span>
+            </li>`;
+          }).join('')}
+        </ul>`;
+
       const card = document.createElement('div');
-      card.className = 'budget-card' + (hasLimit ? '' : ' no-limit');
+      card.className = 'budget-card' + (hasLimit ? '' : ' no-limit') + (catTxs.length > 0 ? ' has-txs' : '');
       card.innerHTML = `
         <div class="budget-card-header">
           <span class="budget-card-name">${escapeHtml(cat)}</span>
           <span class="budget-card-amounts">
             <span class="spent">$${spentAmt.toFixed(2)} spent</span>${leftHtml}
           </span>
+          ${catTxs.length > 0 ? `<span class="card-chevron">›</span>` : ''}
         </div>
         ${hasLimit ? `
         <div class="progress-track">
           <div class="progress-bar ${barClass}" style="--pct:${pct.toFixed(1)}"></div>
         </div>` : ''}
+        <div class="card-tx-drawer">${txListHtml}</div>
       `;
+
+      if (catTxs.length > 0) {
+        card.querySelector('.budget-card-header').addEventListener('click', () => {
+          card.classList.toggle('card-open');
+        });
+      }
+
       container.appendChild(card);
     });
 
